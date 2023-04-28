@@ -4,11 +4,8 @@
     {
         static void Main(string[] args)
         {
-            string[,] playing_field = new string[17, 17];
+            string[,] playing_field = Playing_field();
             int[,] results = new int[3, 3];
-
-            playing_field = Playing_field();
-
             The_GAME(playing_field, results);
 
             // Сама игра
@@ -95,30 +92,12 @@
                 {
                     for (int j = 0; j < width_cross; j++)
                     {
-                        if (i == 0 && j == 2)
-                        {
-                            playing_field[x + i, y + j] = "0 ";
-                        }
-                        else if (i == 1 && j == 1 || i == 1 && j == 3)
-                        {
-                            playing_field[x + i, y + j] = "0 ";
-                        }
-                        else if (i == 2 && j == 0 || i == 2 && j == 4)
-                        {
-                            playing_field[x + i, y + j] = "0 ";
-                        }
-                        else if (i == 3 && j == 1 || i == 3 && j == 3)
-                        {
-                            playing_field[x + i, y + j] = "0 ";
-                        }
-                        else if (i == 4 && j == 2)
-                        {
-                            playing_field[x + i, y + j] = "0 ";
-                        }
-                        else
-                        {
-                            playing_field[x + i, y + j] = "  ";
-                        }
+                        if (i == 0 && j == 2) playing_field[x + i, y + j] = "0 ";                        
+                        else if (i == 1 && j == 1 || i == 1 && j == 3) playing_field[x + i, y + j] = "0 ";                        
+                        else if (i == 2 && j == 0 || i == 2 && j == 4) playing_field[x + i, y + j] = "0 ";
+                        else if (i == 3 && j == 1 || i == 3 && j == 3) playing_field[x + i, y + j] = "0 ";
+                        else if (i == 4 && j == 2) playing_field[x + i, y + j] = "0 ";
+                        else playing_field[x + i, y + j] = "  ";                       
                     }
                 }
                 return playing_field;
@@ -134,22 +113,10 @@
                 {
                     for (int j = 0; j < width_cross; j++)
                     {
-                        if ((i == j) ^ (i == 2 && j == 2))
-                        {
-                            playing_field[x + i, y + j] = "\\ ";
-                        }
-                        else if (i == 2 && j == 2)
-                        {
-                            playing_field[x + i, y + j] = "X ";
-                        }
-                        else if (i == len_cross - 1 - j)
-                        {
-                            playing_field[x + i, y + j] = " /";
-                        }
-                        else
-                        {
-                            playing_field[x + i, y + j] = "  ";
-                        }
+                        if ((i == j) ^ (i == 2 && j == 2)) playing_field[x + i, y + j] = "\\ ";
+                        else if (i == 2 && j == 2) playing_field[x + i, y + j] = "X ";
+                        else if (i == len_cross - 1 - j) playing_field[x + i, y + j] = " /";
+                        else playing_field[x + i, y + j] = "  ";
                     }
                 }
                 return playing_field;
@@ -167,18 +134,9 @@
                 {
                     for (int j = 0; j < len_row; j++)
                     {
-                        if (j == 5 || j == 11)
-                        {
-                            playing_field[i, j] = "|";
-                        }
-                        else if (i == 5 || i == 11)
-                        {
-                            playing_field[i, j] = "--";
-                        }
-                        else
-                        {
-                            playing_field[i, j] = "  ";
-                        }
+                        if (j == 5 || j == 11) playing_field[i, j] = "|";                        
+                        else if (i == 5 || i == 11) playing_field[i, j] = "--";
+                        else playing_field[i, j] = "  ";
                     }
                 }
                 return playing_field;
@@ -189,32 +147,29 @@
             {
                 switch (x)
                 {
-                    case 1:
-                        return 0;
-                    case 2:
-                        return 6;
-                    case 3:
-                        return 12;
+                    case 1: return 0;
+                    case 2: return 6;
+                    case 3: return 12;
                 }
                 return x;
             }
 
             // Вывод массива на экран консоли
-            void PrintArray(Array matr)
+            void PrintArray(Array _array)
             {
                 Console.Clear();
-                switch (matr.Rank)
+                switch (_array.Rank)
                 {
                     case 1:
-                        for (int i = 0; i < matr.GetLength(0); i++)
-                            Console.Write($"{matr.GetValue(i)} ");
+                        for (int i = 0; i < _array.GetLength(0); i++)
+                            Console.Write($"{_array.GetValue(i)} ");
                         break;
                     case 2:
-                        for (int i = 0; i < matr.GetLength(0); i++)
+                        for (int i = 0; i < _array.GetLength(0); i++)
                         {
-                            for (int j = 0; j < matr.GetLength(1); j++)
+                            for (int j = 0; j < _array.GetLength(1); j++)
                             {
-                                Console.Write($"{matr.GetValue(i, j)}");
+                                Console.Write($"{_array.GetValue(i, j)}");
                             }
                             Console.WriteLine();
                         }
@@ -225,29 +180,29 @@
             // Метод ввода поля и проверка на правильность ввода
             int[] EnterTheNumber()
             {
-                int str;
+                int line;
                 Console.Write("Введите номер строки от 1 до 3: ");
-                bool correct_str = int.TryParse(Console.ReadLine(), out str);
+                bool correct_line = int.TryParse(Console.ReadLine(), out line);
 
-                if (!correct_str || str < 1 || str > 3)
+                if (!correct_line || line < 1 || line > 3)
                 {
                     Console.WriteLine("Некорректный ввод, попробуйте ещё раз");
                     return EnterTheNumber();
                 }
 
-                int slolb;
+                int row;
                 Console.Write("Введите номер столбца от 1 до 3: ");
-                bool correct_slolb = int.TryParse(Console.ReadLine(), out slolb);
+                bool correct_row = int.TryParse(Console.ReadLine(), out row);
 
-                if (!correct_slolb || slolb < 1 || slolb > 3)
+                if (!correct_row || row < 1 || row > 3)
                 {
                     Console.WriteLine("Некорректный ввод, попробуйте ещё раз");
                     return EnterTheNumber();
                 }
 
                 int[] turn = new int[2];
-                turn[0] = str;
-                turn[1] = slolb;
+                turn[0] = line;
+                turn[1] = row;
 
                 return turn;
             }
